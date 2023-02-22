@@ -23,6 +23,17 @@ class JwtPayload:
         self.binNumbers = binNumbers
         self.pgCode = pgCode
 
+class Jwtcards:
+    def __init__(self, issuer,userId,cards,name,number,binId,cardId):
+        self.issuer = issuer
+        self.userId = userId
+        self.cards = cards
+        self.name = name
+        self.number = number
+        self.binId = binId
+        self.cardId = cardId
+
+
 def submitCardDetails(browser,cardNumber, expiryMonth, expiryYear, cvv, cardholderName):
 
     actions = ActionChains(browser)
@@ -77,8 +88,28 @@ def generateTokenAndSetHeader(JwtPayload):
         "frontendReturnUrl": JwtPayload.frontendReturnUrl,
         "backendReturnUrl": JwtPayload.backendReturnUrl,
         "cards": JwtPayload.cards,
-        # "binNumbers": JwtPayload.binNumbers,
+        "binNumbers": JwtPayload.binNumbers,
         "pgCode": JwtPayload.pgCode
+    }
+
+
+    # the secret key used to sign the JWT
+    secret_key = "jwt_2JdMPbiyaVj77x2lWGao5GFOxFv"
+
+    # encode the payload with the secret key
+    encoded_jwt = jwt.encode(payload, secret_key, algorithm='HS256')
+    return encoded_jwt
+
+def generateTokenAndSetHeaderforbinsandcards(Jwtcards):
+    # the payload containing the claims
+    payload = {
+        "iss": Jwtcards.issuer,
+        "userId": Jwtcards.userId,
+        "card": Jwtcards.cards,
+        "name": Jwtcards.name,
+        "number": Jwtcards.number,
+        "binId": Jwtcards.binId,
+        "cardId": Jwtcards.cardId
     }
 
     # the secret key used to sign the JWT
@@ -87,6 +118,7 @@ def generateTokenAndSetHeader(JwtPayload):
     # encode the payload with the secret key
     encoded_jwt = jwt.encode(payload, secret_key, algorithm='HS256')
     return encoded_jwt
+
 
 
 def check_browser_redirection(currentUrl,self,test_case):

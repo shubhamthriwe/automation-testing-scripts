@@ -1,0 +1,142 @@
+import requests
+import time
+import json
+import unittest
+import testMethods as external
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
+
+
+class ApiTesting_Createcards(unittest.TestCase):
+    # Createcards
+    def test_case_14(self):
+
+        test_case = 14
+        # Payment request api call
+        url = "http://localhost:8088/v1/cards"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "FAB_BENEFITS_V1",
+            userId="kEpGPf9LoE",
+            cards = 
+                {
+                    "first" :"424246",
+                    "last" :"4242"
+                },
+            name=None,
+            number=None,
+            binId=None,
+            cardId=None
+
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("POST", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+
+    def test_case_15(self):
+        test_case = 15
+        # Payment request api call
+        url = "http://localhost:8088/v1/bins"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "FAB_BENEFITS_V1",
+            userId=None,
+            cards = None,
+            name="XYZ",
+            number="123456",
+            binId=None,
+            cardId=None
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("POST", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+    # getcards
+    def test_case_16(self):
+        test_case = 16
+        # Payment request api call
+        url = "http://localhost:8088/v1/cards"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "FAB_BENEFITS_V1",
+            userId="kEpGPf9LoE",
+            cards = None,
+            name=None,
+            number=None,
+            binId=None,
+            cardId="card_2LiiuN5JFiGvK39wNZpnl49ARTF"
+
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("GET", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+    # getbins
+    def test_case_17(self):
+        test_case = 17
+        # Payment request api call
+        url = "http://localhost:8088/v1/bins"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "FAB_BENEFITS_V1",
+            userId=None,
+            cards = None,
+            name=None,
+            number="424242",
+            binId=None,
+            cardId=None
+
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("GET", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+
+if __name__ == '__main__':
+    # Run all test cases at once
+    unittest.main()
+
+    # Run a particular test case separately
+    # test_suite = unittest.TestSuite()
+    # test_suite.addTest(TestPaymentCheckout('test_case_2'))
+    # unittest.TextTestRunner().run(test_suite)
+
+
+

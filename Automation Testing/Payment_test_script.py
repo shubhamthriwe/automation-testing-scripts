@@ -17,6 +17,7 @@ class TestPaymentCheckout(unittest.TestCase):
  
     # Only cards givn in the request
     def test_case_1(self):
+
         test_case = 1
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
@@ -86,6 +87,7 @@ class TestPaymentCheckout(unittest.TestCase):
 
     # only bins given
     def test_case_2(self):
+
         test_case = 2
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
@@ -149,6 +151,7 @@ class TestPaymentCheckout(unittest.TestCase):
     
     # only PGcode given
     def test_case_3(self):
+
         test_case = 3
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
@@ -213,6 +216,7 @@ class TestPaymentCheckout(unittest.TestCase):
    
     #pre-auth true
     def test_case_4(self):
+
         test_case = 4
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
@@ -277,6 +281,7 @@ class TestPaymentCheckout(unittest.TestCase):
     
     # Cards and bin both in request
     def test_case_5(self):
+
 
         test_case = 5
         # Payment request api call
@@ -347,6 +352,7 @@ class TestPaymentCheckout(unittest.TestCase):
 
     # Pre-auth False
     def test_case_6(self):
+
         test_case = 6
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
@@ -411,6 +417,7 @@ class TestPaymentCheckout(unittest.TestCase):
 
     # wrong project code
     def test_case_7(self):
+
         
         test_case = 7
         # Payment request api call
@@ -481,6 +488,7 @@ class TestPaymentCheckout(unittest.TestCase):
 
     # Wrong cardnumber in request token
     def test_case_8(self):
+
         #wrong frontend URL
         test_case = 8
         # Payment request api call
@@ -551,6 +559,7 @@ class TestPaymentCheckout(unittest.TestCase):
     
     # Without Contact number
     def test_case_9(self):
+
         test_case = 9
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
@@ -620,6 +629,7 @@ class TestPaymentCheckout(unittest.TestCase):
     
     # Without Email
     def test_case_10(self):
+
         test_case = 10
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
@@ -689,7 +699,8 @@ class TestPaymentCheckout(unittest.TestCase):
     
     # Wrong currency
     def test_case_11(self):
-        test_case = 10
+
+        test_case = 11
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
         # payload={}
@@ -759,7 +770,8 @@ class TestPaymentCheckout(unittest.TestCase):
     # Wrong card input in checkout
     
     def test_case_12(self):
-        test_case = 11
+
+        test_case = 12
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
         # payload={}
@@ -828,7 +840,8 @@ class TestPaymentCheckout(unittest.TestCase):
     
     # No Card/PGcode/Binnumbers
     def test_case_13(self):
-        test_case = 12
+
+        test_case = 13
         # Payment request api call
         url = "http://localhost:8088/v1/payments"
         # payload={}
@@ -893,6 +906,129 @@ class TestPaymentCheckout(unittest.TestCase):
     def tearDown(self):
         self.browser.close()
 
+class ApiTesting_Createcards(unittest.TestCase):
+    # Createcards
+    def test_case_14(self):
+
+        test_case = 14
+        # Payment request api call
+        url = "http://localhost:8088/v1/cards"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "FAB_BENEFITS_V1",
+            userId="kEpGPf9LoE",
+            cards = 
+                {
+                    "first" :"424246",
+                    "last" :"4242"
+                },
+            name=None,
+            number=None,
+            binId=None,
+            cardId=None
+
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("POST", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+
+    def test_case_15(self):
+        test_case = 15
+        # Payment request api call
+        url = "http://localhost:8088/v1/bins"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "FAB_BENEFITS_V1",
+            userId=None,
+            cards = None,
+            name="XYZ",
+            number="123456",
+            binId=None,
+            cardId=None
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("POST", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+
+    # getcards
+    def test_case_16(self):
+        test_case = 16
+        # Payment request api call
+        url = "http://localhost:8088/v1/cards"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "ENBD_V3",
+            userId="pQMBQFCZH5",
+            cards = None,
+            name=None,
+            number=None,
+            binId=None,
+            cardId="card_2M5axwKUdbgDYjaWWjUWcVgKyPd"
+
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("GET", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+
+    # getbins
+    def test_case_17(self):
+        test_case = 17
+        # Payment request api call
+        url = "http://localhost:8088/v1/bins"
+        # payload={}
+
+        tokenPayload = external.Jwtcards(
+            issuer = "FAB_BENEFITS_V1",
+            userId=None,
+            cards = None,
+            name=None,
+            number="424242",
+            binId=None,
+            cardId=None
+
+            )
+        
+        headers = {
+            'Authorization': 'Bearer ' + external.generateTokenAndSetHeaderforbinsandcards(tokenPayload)
+        }
+
+        response = requests.request("GET", url, headers=headers, data={})
+        data = response.json()
+        if response.status_code == 200:
+           external.logMessage(test_case," success","Api response" + json.dumps(data))
+        else:
+            external.logMessage(test_case,"Error"," Api response error : " + json.dumps(data))
+            
+    def tearDown(self):
+        self.browser.close()
+ 
 if __name__ == '__main__':
     # Run all test cases at once
     unittest.main()
